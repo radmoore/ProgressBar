@@ -7,6 +7,7 @@ activity when the progress of the activity is unknown).
 ###### Features
 * Text-Based progress bar written in Java
 * Progressable and intermediate mode
+* Messaging system
 * Width and padding of progress bar customizable
 * Charaters used for indicator customizable (e.g. <code>=</code> instead of <code>|</code>)
 * Progress timing
