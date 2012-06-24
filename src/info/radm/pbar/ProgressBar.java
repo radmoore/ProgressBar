@@ -25,7 +25,7 @@ public class ProgressBar {
 	public static char SIGN_4 = '#';
 
 	private int current, max, seconds, minutes, ETAsec, ETAmin;
-	private long start, elapsed, ETAtime;
+	private long start = -1, elapsed, ETAtime;
 	private String runningTime, ETAstring = "--:--", message = "";
 	private boolean indicate = false, quiet = false, finished = false;
 	private char indChar = SIGN_1;
@@ -171,6 +171,8 @@ public class ProgressBar {
 	 * @param currentValue - the current value of the progress
 	 */
 	public void setCurrentVal(int currentValue) {
+		if (start == -1)
+			start = System.currentTimeMillis();
 	  this.current = currentValue;
 	  if (!quiet)
 		  this.printProgressBar();
@@ -343,7 +345,13 @@ public class ProgressBar {
     	ETAsec = (int)(ETAtime /1000)%60;
     	ETAmin = (int)(ETAtime /1000)/60;
     	ETAstring = String.format("%02d",ETAmin)+":"+String.format("%02d",ETAsec);
+//    	System.out.println("Minutes: "+minutes);
+//    	System.out.println("seconds: "+seconds);
+//    	System.out.println("Elapsed: "+elapsed);
+//    	System.out.println("Start: "+start);
+//    	System.exit(-1);
     	runningTime = String.format("%02d",minutes)+":"+String.format("%02d",seconds);
+//    	System.out.println("Running time: "+runningTime);
 	}
 	
 	
@@ -353,6 +361,7 @@ public class ProgressBar {
 	private void startThread() {
 		new Thread() {
 			public void run() {
+				start = System.currentTimeMillis();
 				try {
 					if (mode == INTERMEDIATE_MODE)
 						if (!quiet)
