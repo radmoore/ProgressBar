@@ -3,27 +3,83 @@ package info.radm.pbar;
 
 /**
  * A simple, customizable class for displaying progression
- * (or activity) using a text-based progress bar. Runs in
- * a separate Thread
+ * (or activity) using a text-based progress bar. Supports
+ * to types of progress indication. In PROGRESSABLE_MODE,
+ * the progress is indicated by setting the current value
+ * of progress up to a defined max value. 
  * 
- * TODO
- * - sprintf?
- * - stop()?
- * - ETA?
+ * When the max value of progress in unknown, the use of the
+ * INTERMEDIATE_MODE allows to indicate indefiniate progress
+ * (activity).
  *  
  * @author <a href="http://radm.info">Andrew D. Moore</a>
+ * @version 0.7.1
  * @see Thread
  *
  */
 public class ProgressBar {
 
+	/**
+	 * Intermediate progress mode for use when the duration of an activity is unknown.
+	 * See @{link #setProgressMode(int, boolean)}
+	 */
 	public static int INTERMEDIATE_MODE = 0;
+	
+	/**
+	 * Progressable progress mode for use the duration of an activity is known
+	 * See {@link #setProgressMode(int, boolean)}
+	 */
 	public static int PROGRESSABLE_MODE = 1;
+	
+	/**
+	 * Characters used for 'drawing' progress:
+	 * |||||||||||||||||||||||||||||||||||||| (DEFAULT)
+	 * |====================================|
+	 * |\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|
+	 * |####################################|
+	 */
+	
+	/**
+	 * Character used for 'drawing' 
+	 * {@code
+	 * ||||||||||||||||||||||||||||||||||||||
+	 * }
+	 * This is the <b>DEFAULT</b> indicator character.
+	 * Set character using {@link #setIndicatorCharater(char)}.
+	 */
 	public static char SIGN_1 = '|';
+
+	/**
+	 * Character used for 'drawing' 
+	 * {@code
+	 * |====================================|
+	 * }
+	 * Set character using {@link #setIndicatorCharater(char)}.
+	 */
 	public static char SIGN_2 = '=';
+	
+
+	/**
+	 * Character used for 'drawing' 
+	 * {@code
+	 * |\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\|
+	 * }
+	 * Set character using {@link #setIndicatorCharater(char)}.
+	 */
 	public static char SIGN_3 = '\\';
+	
+	/**
+	 * Character used for 'drawing' 
+	 * {@code
+	 * |####################################|
+	 * }
+	 * Set character using {@link #setIndicatorCharater(char)}.
+	 */
 	public static char SIGN_4 = '#';
 
+	/**
+	 * Timestamps
+	 */
 	private int current, max, seconds, minutes, ETAsec, ETAmin;
 	private long start = -1, elapsed, ETAtime;
 	private String runningTime, ETAstring = "--:--", message = "";
@@ -130,21 +186,17 @@ public class ProgressBar {
 
 	
 	/**
-	 * Start indication of ProgressBar. This will start a new Thread,
-	 * displaying progress in the specified mode (which by default will
-	 * be ProgressBar.INTERMEDIATE_MODE)
+	 * Start indication of ProgressBar in intermediate mode. 
+	 * This will run in a new Thread. As, in comparison to 
+	 * ProgressBar.PROGRESSABLE_MODE, the progess indication in
+	 * intermediate mode is indefiniate it must be placed in a seperate
+	 * thread. This seperate thread terminiates when finish(newline) 
+	 * is called on an instance of ProgressBar.
 	 * 
 	 * @see Thread
 	 */
-	public void start() {
+	public void startIntermediate() {
 		startThread();
-	}
-	
-	/**
-	 * 
-	 */
-	public void stop() {
-		// todo
 	}
 	
 	/**
@@ -166,11 +218,16 @@ public class ProgressBar {
 	}
 	
 	/**
-	 * Set the current value of the Progress. 
+	 * Set the current value of the Progress. This should only be
+	 * used on a ProgressBar instance in progressable mode, and
+	 * will throw an Exception if called on an instance
+	 * in intermediate mode. 
 	 * 
 	 * @param currentValue - the current value of the progress
 	 */
-	public void setCurrentVal(int currentValue) {
+	public void setCurrentVal(int currentValue) throws Exception {
+		if (this.mode == ProgressBar.INTERMEDIATE_MODE)
+			throw new Exception("IllegalValue");
 		if (start == -1)
 			start = System.currentTimeMillis();
 	  this.current = currentValue;
@@ -345,13 +402,7 @@ public class ProgressBar {
     	ETAsec = (int)(ETAtime /1000)%60;
     	ETAmin = (int)(ETAtime /1000)/60;
     	ETAstring = String.format("%02d",ETAmin)+":"+String.format("%02d",ETAsec);
-//    	System.out.println("Minutes: "+minutes);
-//    	System.out.println("seconds: "+seconds);
-//    	System.out.println("Elapsed: "+elapsed);
-//    	System.out.println("Start: "+start);
-//    	System.exit(-1);
     	runningTime = String.format("%02d",minutes)+":"+String.format("%02d",seconds);
-//    	System.out.println("Running time: "+runningTime);
 	}
 	
 	

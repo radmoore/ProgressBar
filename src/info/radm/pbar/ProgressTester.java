@@ -11,7 +11,7 @@ public class ProgressTester {
 				pBar.setCurrentVal(j);
 			}
 			pBar.setProgressMode(ProgressBar.INTERMEDIATE_MODE, true);
-			pBar.start();
+			pBar.startIntermediate();
 			pBar.setMessage("Waiting for 10 seconds...");
 			try {
 				Thread.sleep(10000);
