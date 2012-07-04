@@ -5,7 +5,7 @@ find a text-based progress bar which is able to run in intermediate mode (that i
 activity when the progress of the activity is unknown). 
 
 ###### Features
-* Text-Based progress bar written in Java
+* Text-based progress bar written in Java
 * Progressable and intermediate mode
 * Messaging system
 * Width and padding of progress bar customizable
