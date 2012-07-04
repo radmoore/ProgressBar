@@ -34,7 +34,7 @@ public class ProgressTester {
       // (which will display no progression)
       pBar.setProgressMode(ProgressBar.INTERMEDIATE_MODE, true);
       // start intermediate progress
-      pBar.start();
+      pBar.startIntermediate();
       pBar.setMessage("Waiting for 10 seconds...");
       // display intermediate progress for 10 seconds
       try { Thread.sleep(10000); }   
