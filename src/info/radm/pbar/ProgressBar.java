@@ -80,14 +80,14 @@ public class ProgressBar {
 	/**
 	 * Timestamps
 	 */
+	@SuppressWarnings("unused")
 	private int current, max, seconds, minutes, ETAsec, ETAmin;
 	private long start = -1, elapsed, ETAtime;
-	private String runningTime, ETAstring = "--:--", message = "";
-	private boolean indicate = false, quiet = false, finished = false;
+	private String runningTime, message = "";
+	private boolean indicate = false, quiet = false;
 	private char indChar = SIGN_1;
 	private int mode = 0;
 	private int barWidth = 35;
-	private int indWidth = 5;
 	
 	/**
 	 * Use this constructor to create a new ProgressBar in intermediate_mode.
@@ -98,7 +98,7 @@ public class ProgressBar {
 	 * @see Exception
 	 * 
 	 */
-	public ProgressBar(String message) throws Exception {
+	public ProgressBar(String message) {
 		setMessage(message);
 		this.indicate = true;
 	}
@@ -112,7 +112,7 @@ public class ProgressBar {
 	 * @throws Exception if message > 35 characters
 	 * @see Exception
 	 */
-	public ProgressBar(int max, String message) throws Exception {
+	public ProgressBar(int max, String message) {
 		setMessage(message);
 		this.max = max;
 		this.indicate = true;
@@ -160,9 +160,8 @@ public class ProgressBar {
 	 * 
 	 * @param mode - the ProgressBar mode
 	 * @param finish - finish currently displayed ProgressBar (if any)
-	 * @throws Exception
 	 */
-	public void setProgressMode(int mode, boolean finish) throws Exception{
+	public void setProgressMode(int mode, boolean finish){
 
 		if (mode == PROGRESSABLE_MODE) {
 			if (this.mode == INTERMEDIATE_MODE) {	
@@ -178,9 +177,9 @@ public class ProgressBar {
 				finishProgress(true);
 			this.mode = mode;
 			reset();
-		}	
+		}
 		else
-			throw new Exception("IllegalProgressMode");
+			return;
 		
 	}
 
@@ -203,34 +202,48 @@ public class ProgressBar {
 	 * Set the message displayed in front of the ProgressBar.
 	 * The space to write in is 35 characters long. If less, 
 	 * the message will be padded to the right end with white spaces.
-	 * If more, an exception will be thrown. 
 	 * 
 	 * @param message - the message to be set in front of the ProgressBar
-	 * @throws Exception
 	 */
-	public void setMessage(String message) throws Exception {
+	public void setMessage(String message) {
 		if (message.length() <= 35)
 			this.message = String.format("%1$-" + 35 + "s", message);
 		else if ( message.length() == 25 )
 			this.message = message;
-		else 
-			throw new Exception("MessageOverflow");
+		else
+			this.message = message.substring(0, 32)+"...";
+		
 	}
 	
 	/**
-	 * Set the current value of the Progress. This should only be
+	 * Set the current value of the Progress to currentValue. This should only be
 	 * used on a ProgressBar instance in progressable mode, and
-	 * will throw an Exception if called on an instance
-	 * in intermediate mode. 
+	 * will do nothing if called on an instance in intermediate mode. 
 	 * 
 	 * @param currentValue - the current value of the progress
 	 */
-	public void setCurrentVal(int currentValue) throws Exception {
+	public void setCurrentVal(int currentValue) {
 		if (this.mode == ProgressBar.INTERMEDIATE_MODE)
-			throw new Exception("IllegalValue");
+			return;
 		if (start == -1)
 			start = System.currentTimeMillis();
 	  this.current = currentValue;
+	  if (!quiet)
+		  this.printProgressBar();
+	}
+	
+	/**
+	 * Increase the current value of the Progress. This should only be
+	 * used on a ProgressBar instance in progressable mode, and
+	 * will do nothing if called on an instance in intermediate mode. 
+	 * 
+	 */
+	public void incProgress() {
+		if (this.mode == ProgressBar.INTERMEDIATE_MODE)
+			return;
+		if (start == -1)
+			start = System.currentTimeMillis();
+	  this.current += 1; 
 	  if (!quiet)
 		  this.printProgressBar();
 	}
@@ -245,7 +258,7 @@ public class ProgressBar {
 	 * @param newLine - whether or not a new line should be appended
 	 */
 	public void finish(boolean newLine) {
-		finished = true;
+	//	finished = true;
 		if (mode == INTERMEDIATE_MODE)
 			finishIntermediate(newLine);
 		else
@@ -271,7 +284,7 @@ public class ProgressBar {
     	ETAtime = 0;
     	ETAsec = 0;
     	ETAmin = 0;
-    	ETAstring = "--:--";
+    	//ETAstring = "--:--";
     	runningTime = "";
 	}
 	
@@ -401,7 +414,7 @@ public class ProgressBar {
     	ETAtime = elapsed * (long)((double)max/(double)current);
     	ETAsec = (int)(ETAtime /1000)%60;
     	ETAmin = (int)(ETAtime /1000)/60;
-    	ETAstring = String.format("%02d",ETAmin)+":"+String.format("%02d",ETAsec);
+    	//ETAstring = String.format("%02d",ETAmin)+":"+String.format("%02d",ETAsec);
     	runningTime = String.format("%02d",minutes)+":"+String.format("%02d",seconds);
 	}
 	
