@@ -1,12 +1,12 @@
 ProgressBar
 ===========
 A text-based ProgressBar for Java. There may be alternatives around, but I was unable to
-find a text-based progress bar which is able to run in intermediate mode (that is, indicate
+find a text-based progress bar which is able to run in indeterminate mode (that is, indicate
 activity when the progress of the activity is unknown). 
 
 ###### Features
 * Text-based progress bar written in Java
-* Progressable and intermediate mode
+* Progressable and indeterminate mode
 * Messaging system
 * Width and padding of progress bar customizable
 * Charaters used for indicator customizable (e.g. <code>=</code> instead of <code>|</code>)
@@ -30,13 +30,13 @@ public class ProgressTester {
         pBar.setCurrentVal(j);
       }   
       
-      // switch progress mode to intermediate
+      // switch progress mode to indeterminate
       // (which will display no progression)
       pBar.setProgressMode(ProgressBar.INTERMEDIATE_MODE, true);
-      // start intermediate progress
+      // start indeterminate progress
       pBar.startIntermediate();
       pBar.setMessage("Waiting for 10 seconds...");
-      // display intermediate progress for 10 seconds
+      // display indeterminate progress for 10 seconds
       try { Thread.sleep(10000); }   
       catch (InterruptedException ie) { ie.printStackTrace(); }   
       pBar.setMessage("Finished waiting.");
