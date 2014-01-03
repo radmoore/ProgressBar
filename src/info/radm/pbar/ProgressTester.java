@@ -3,15 +3,14 @@ package info.radm.pbar;
 public class ProgressTester {
 	
 	public static void main(String[] args) {
-		int i = Integer.valueOf(args[0]);
-		
+		int i = 20;
 		try {
 			ProgressBar pBar = new ProgressBar(i, "Progress Test");
 			for (int j = 0; j <= i; j++) {
 				pBar.setCurrentVal(j);
 			}
 			pBar.setProgressMode(ProgressBar.INDETERMINATE_MODE, true);
-			pBar.startIntermediate();
+			pBar.startIndeterminate();
 			pBar.setMessage("Waiting for 10 seconds...");
 			try {
 				Thread.sleep(10000);

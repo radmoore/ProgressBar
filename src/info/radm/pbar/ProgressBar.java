@@ -9,7 +9,7 @@ package info.radm.pbar;
  * of progress up to a defined max value. 
  * 
  * When the max value of progress in unknown, the use of the
- * INTERMEDIATE_MODE allows to indicate indefiniate progress
+ * INDETERMINATE_MODE allows to indicate indefiniate progress
  * (activity).
  *  
  * @author <a href="http://radm.info">Andrew D. Moore</a>
@@ -23,7 +23,7 @@ public class ProgressBar {
 	 * Intermediate progress mode for use when the duration of an activity is unknown.
 	 * See @{link #setProgressMode(int, boolean)}
 	 */
-	public static int INDERTERMINATE_MODE = 0;
+	public static int INDETERMINATE_MODE = 0;
 	
 	/**
 	 * Progressable progress mode for use the duration of an activity is known
@@ -164,15 +164,15 @@ public class ProgressBar {
 	public void setProgressMode(int mode, boolean finish){
 
 		if (mode == PROGRESSABLE_MODE) {
-			if (this.mode == INDERTERMINATE_MODE) {	
+			if (this.mode == INDETERMINATE_MODE) {	
 				indicate = false;
 				if ((!quiet) && (finish))
-					finishIntermediate(true);
+					finishIndeterminate(true);
 			}
 			this.mode = mode;
 			reset();
 		}
-		else if (mode == INDERTERMINATE_MODE) {
+		else if (mode == INDETERMINATE_MODE) {
 			if ((!quiet) && (finish))
 				finishProgress(true);
 			this.mode = mode;
@@ -194,7 +194,7 @@ public class ProgressBar {
 	 * 
 	 * @see Thread
 	 */
-	public void startIntermediate() {
+	public void startIndeterminate() {
 		startThread();
 	}
 	
@@ -260,7 +260,7 @@ public class ProgressBar {
 	public void finish(boolean newLine) {
 	//	finished = true;
 		if (mode == INDETERMINATE_MODE)
-			finishIntermediate(newLine);
+			finishIndeterminate(newLine);
 		else
 			finishProgress(newLine);
 		
