@@ -23,7 +23,7 @@ public class ProgressBar {
 	 * Intermediate progress mode for use when the duration of an activity is unknown.
 	 * See @{link #setProgressMode(int, boolean)}
 	 */
-	public static int INTERMEDIATE_MODE = 0;
+	public static int INDERTERMINATE_MODE = 0;
 	
 	/**
 	 * Progressable progress mode for use the duration of an activity is known
@@ -90,7 +90,7 @@ public class ProgressBar {
 	private int barWidth = 35;
 	
 	/**
-	 * Use this constructor to create a new ProgressBar in intermediate_mode.
+	 * Use this constructor to create a new ProgressBar in indeterminate_mode.
 	 * Change the mode on instance using setProgressMode.
 	 *   
 	 * @param message - the message string which precedes the progress bar.
@@ -117,7 +117,7 @@ public class ProgressBar {
 		this.max = max;
 		this.indicate = true;
 		try {
-			setProgressMode(ProgressBar.INTERMEDIATE_MODE, false);
+			setProgressMode(ProgressBar.INDETERMINATE_MODE, false);
 		}
 		catch (Exception e) { };
 	}
@@ -164,7 +164,7 @@ public class ProgressBar {
 	public void setProgressMode(int mode, boolean finish){
 
 		if (mode == PROGRESSABLE_MODE) {
-			if (this.mode == INTERMEDIATE_MODE) {	
+			if (this.mode == INDERTERMINATE_MODE) {	
 				indicate = false;
 				if ((!quiet) && (finish))
 					finishIntermediate(true);
@@ -172,7 +172,7 @@ public class ProgressBar {
 			this.mode = mode;
 			reset();
 		}
-		else if (mode == INTERMEDIATE_MODE) {
+		else if (mode == INDERTERMINATE_MODE) {
 			if ((!quiet) && (finish))
 				finishProgress(true);
 			this.mode = mode;
@@ -185,7 +185,7 @@ public class ProgressBar {
 
 	
 	/**
-	 * Start indication of ProgressBar in intermediate mode. 
+	 * Start indication of ProgressBar in indeterminate mode. 
 	 * This will run in a new Thread. As, in comparison to 
 	 * ProgressBar.PROGRESSABLE_MODE, the progess indication in
 	 * intermediate mode is indefiniate it must be placed in a seperate
@@ -223,7 +223,7 @@ public class ProgressBar {
 	 * @param currentValue - the current value of the progress
 	 */
 	public void setCurrentVal(int currentValue) {
-		if (this.mode == ProgressBar.INTERMEDIATE_MODE)
+		if (this.mode == ProgressBar.INDETERMINATE_MODE)
 			return;
 		if (start == -1)
 			start = System.currentTimeMillis();
@@ -239,7 +239,7 @@ public class ProgressBar {
 	 * 
 	 */
 	public void incProgress() {
-		if (this.mode == ProgressBar.INTERMEDIATE_MODE)
+		if (this.mode == ProgressBar.INDETERMINATE_MODE)
 			return;
 		if (start == -1)
 			start = System.currentTimeMillis();
@@ -259,7 +259,7 @@ public class ProgressBar {
 	 */
 	public void finish(boolean newLine) {
 	//	finished = true;
-		if (mode == INTERMEDIATE_MODE)
+		if (mode == INDETERMINATE_MODE)
 			finishIntermediate(newLine);
 		else
 			finishProgress(newLine);
@@ -315,7 +315,7 @@ public class ProgressBar {
 	 * 
 	 * @param newLine - whether or not to append a boolean
 	 */
-	private void finishIntermediate(boolean newLine) {
+	private void finishIndeterminate(boolean newLine) {
 		indicate = false;
 		takeTime();
 		//this.start = System.currentTimeMillis();
@@ -333,7 +333,7 @@ public class ProgressBar {
 	}
 	
 	/**
-	 * Prints an intermediate ProgressBar
+	 * Prints an indeterminate ProgressBar
 	 */
 	private void printInterBar() {
 		int indSize = 10;
@@ -427,7 +427,7 @@ public class ProgressBar {
 			public void run() {
 				start = System.currentTimeMillis();
 				try {
-					if (mode == INTERMEDIATE_MODE)
+					if (mode == INDETERMINATE_MODE)
 						if (!quiet)
 							printInterBar();
 					else

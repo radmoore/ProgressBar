@@ -10,7 +10,7 @@ public class ProgressTester {
 			for (int j = 0; j <= i; j++) {
 				pBar.setCurrentVal(j);
 			}
-			pBar.setProgressMode(ProgressBar.INTERMEDIATE_MODE, true);
+			pBar.setProgressMode(ProgressBar.INDETERMINATE_MODE, true);
 			pBar.startIntermediate();
 			pBar.setMessage("Waiting for 10 seconds...");
 			try {
