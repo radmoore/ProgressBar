@@ -9,7 +9,7 @@ package info.radm.pbar;
  * of progress up to a defined max value. 
  * 
  * When the max value of progress in unknown, the use of the
- * INDETERMINATE_MODE allows to indicate indefiniate progress
+ * INDETERMINATE_MODE allows to indicate indefinite progress
  * (activity).
  *  
  * @author <a href="http://radm.info">Andrew D. Moore</a>
@@ -20,7 +20,7 @@ package info.radm.pbar;
 public class ProgressBar {
 
 	/**
-	 * Intermediate progress mode for use when the duration of an activity is unknown.
+	 * Indeterminate progress mode for use when the duration of an activity is unknown.
 	 * See @{link #setProgressMode(int, boolean)}
 	 */
 	public static int INDETERMINATE_MODE = 0;
@@ -188,7 +188,7 @@ public class ProgressBar {
 	 * Start indication of ProgressBar in indeterminate mode. 
 	 * This will run in a new Thread. As, in comparison to 
 	 * ProgressBar.PROGRESSABLE_MODE, the progess indication in
-	 * intermediate mode is indefiniate it must be placed in a seperate
+	 * indeterminate mode is indefiniate it must be placed in a seperate
 	 * thread. This seperate thread terminiates when finish(newline) 
 	 * is called on an instance of ProgressBar.
 	 * 
@@ -218,7 +218,7 @@ public class ProgressBar {
 	/**
 	 * Set the current value of the Progress to currentValue. This should only be
 	 * used on a ProgressBar instance in progressable mode, and
-	 * will do nothing if called on an instance in intermediate mode. 
+	 * will do nothing if called on an instance in indeterminate mode. 
 	 * 
 	 * @param currentValue - the current value of the progress
 	 */
@@ -235,7 +235,7 @@ public class ProgressBar {
 	/**
 	 * Increase the current value of the Progress. This should only be
 	 * used on a ProgressBar instance in progressable mode, and
-	 * will do nothing if called on an instance in intermediate mode. 
+	 * will do nothing if called on an instance in indeterminate mode. 
 	 * 
 	 */
 	public void incProgress() {
@@ -311,7 +311,7 @@ public class ProgressBar {
 	}
 	
 	/**
-	 * Finishes the current intermediate ProgressBar
+	 * Finishes the current indeterminate ProgressBar
 	 * 
 	 * @param newLine - whether or not to append a boolean
 	 */
